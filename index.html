@@ -11,32 +11,6 @@
     <input title="mathinput" placeholder="1+1"></input>
     <p>Answer: </p>
     <p id="answer"></p>
-
-    <script>
-        const regex = /^[0-9]+([+,-,*,\/]+[0-9]+)+$/gm;
-        
-        let input = document.querySelector('input');
-        let answer = document.querySelector('#answer');
-
-        input.addEventListener('input', function() {
-            let value = input.value;
-            
-            // If textbox contains number followed by math operation (+,-,*,/) followed by number
-            if (input.value.match(regex)){
-                // @TODO
-                // Eventually rewrite to identify all the operators and numbers manually so don't have to rely on eval
-                
-                // split the input string into tokens (numbers and operators)
-                numbers = value.split(/\d+\.?\d*|[+*\/()-^]/);
-                console.log("numbers: ", numbers);
-
-            }
-            else {
-                answer.innerHTML = 'Invalid input';
-            }
-        });
-    </script>
-
     <style>
         input {
             text-align: center;
@@ -58,5 +32,6 @@
             font-weight: bold;
         }
     </style>
+    <script async src="main.js"></script>
 </body>
 </html>
