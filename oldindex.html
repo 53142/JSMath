@@ -25,11 +25,7 @@
             if (input.value.match(regex)){
                 // @TODO
                 // Eventually rewrite to identify all the operators and numbers manually so don't have to rely on eval
-                
-                // split the input string into tokens (numbers and operators)
-                numbers = value.split(/\d+\.?\d*|[+*\/()-^]/);
-                console.log("numbers: ", numbers);
-
+                answer.innerHTML = eval(value);
             }
             else {
                 answer.innerHTML = 'Invalid input';
