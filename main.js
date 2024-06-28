@@ -111,8 +111,17 @@ const regex = /^[A-z,0-9,\(\),+,\*,\/,-]*$/
 
 let input = document.querySelector('input');
 let answer = document.querySelector('#answer');
+let button = document.querySelector('#calculate');
 
-input.addEventListener('input', function() {
+input.addEventListener("keydown", function(event) {
+    if (event.code === "Enter") {
+        calculate();
+    }
+});
+
+button.addEventListener('click', calculate);
+
+function calculate() {
     let value = input.value;
     
     // If textbox contains number followed by math operation (+,-,*,/) followed by number
@@ -122,9 +131,8 @@ input.addEventListener('input', function() {
         let result = evaluateExpression(expression);
         answer.innerHTML = result;
         console.log(`The result of '${expression}' is ${result}`);
-
     }
     else {
         answer.innerHTML = 'Invalid input';
     }
-});
+};

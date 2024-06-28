@@ -3,35 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
     <title>Document</title>
 </head>
 <body>
     <h1>HTML Math Website</h1>
     <p>Enter a math expression in the textbox above</p>
-    <input title="mathinput" placeholder="1+1"></input>
-    <p>Answer: </p>
-    <p id="answer"></p>
-    <style>
-        input {
-            text-align: center;
-            width: 100%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0;
-            text-align: center;
-        }
-        
-        #answer {
-            font-size: 24px;
-            font-weight: bold;
-        }
-    </style>
+    <div id="input">
+        <input title="mathinput" placeholder="1+1"></input>
+        <button id="calculate">Calculate</button>
+    </div>
+    
+    <div class="answer">
+        <p id="answer"></p>
+    </div>
+
+    <div id="othercalculators">
+        <a href="unitconverter.html">Unit Converter</a>
+    </div>
     <script async src="main.js"></script>
 </body>
 </html>
