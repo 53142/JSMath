@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="unitconverter.css">
     <title>Unit Converter</title>
 </head>
 <body>
+    <br>
     <label for="types">Choose a type of conversion:</label>
     <select name="types" id="types">
         <option value="distance">Distance</option>
@@ -14,11 +16,21 @@
         <option value="time">Time</option>
     </select>
 
-    <label for="from">From:</label>
-    <select name="from" id="from"></select>
-
-    <label for="to">To:</label>
-    <select name="to" id="to"></select>
+    <div class="converter">
+        <div class="from">
+            <label for="from">From:</label>
+            <select name="from" id="from"></select>
+            <br>
+            <input id="fromValue" type="number"></input>
+        </div>
+        <div class="to">
+            <label for="to">To:</label>
+            <select name="to" id="to"></select>
+            <br>
+            <input id="toValue" type="number" disabled></input>
+        </div>
+    </div>
+    
     
     <button id="convert">Convert</button>
 

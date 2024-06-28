@@ -1,3 +1,15 @@
+html {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: lightgray;
+    text-align: center;
+    animation: fadeInAnimation ease 1.5s;
+}
+
 .input {
     display:inline-block;
     text-align: center;
@@ -22,26 +34,19 @@ input:focus {
 }
 
 button {
-    background-color: #4CAF50;
+    background-color: #424242;
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
-    border: none;
-    cursor: pointer;
     width: 80%;
 }
 
 button:hover {
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #929292;
-    text-align: center;
-    animation: fadeInAnimation ease 1.5s;
+button:active {
+    opacity: 0.8;
 }
 
 .answer {
@@ -65,4 +70,42 @@ body {
     100% {
         background-color: rgb(205, 205, 205);
     }
+}
+
+
+
+
+hr {
+    border: 1px solid rgb(55, 55, 55);
+}
+
+h1 {
+    text-align: center;
+}
+
+a:link {
+    color: rgb(27, 27, 27);
+}
+
+a:visited {
+    color: rgb(0, 0, 0);
+}
+
+a:hover {
+    color: rgb(67, 67, 67);
+}
+
+a:active {
+    color: rgb(132, 132, 132);
+}
+
+footer {
+    position: sticky;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    border-radius: 7px;
 }
