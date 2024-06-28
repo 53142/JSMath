@@ -1,3 +1,8 @@
+// FIX BUG WITH GETTING INACURATE ANSWERS WHEN MULTIPLYING FUNCTIONS TOGETHER
+
+
+
+
 
 // Define operator precedence and functions
 const ops = {
@@ -9,13 +14,23 @@ const ops = {
 };
 
 const functions = {
-    'cos': { precedence: 4, fn: (a) => Math.cos(a)}
+    'log': { fn: (a) => Math.log10(a) },
+    'ln': { fn: (a) => Math.ln(a) },
+    'sin': { fn: (a) => Math.sin(a) },
+    'cos': { fn: (a) => Math.cos(a) },
+    'tan': { fn: (a) => Math.tan(a) },
+    'csc': { fn: (a) => 1/Math.sin(a) },
+    'sec': { fn: (a) => 1/Math.cos(a) },
+    'cot': { fn: (a) => 1/Math.tan(a) },
+    'asin': { fn: (a) => Math.asin(a) },
+    'acos': { fn: (a) => Math.acos(a) },
+    'atan': { fn: (a) => Math.atan(a) },
 };
 
 function tokenize(expression) {
     // Split the input string into tokens (numbers, operators, parentheses)
-    console.log("tokenized: ", expression.match(/\d+\.?\d*|[+*\/()-^]|(cos)/g));
-    return expression.match(/\d+\.?\d*|[+*\/()-^]|(cos)/g);
+    console.log("tokenized: ", expression.match(/\d+\.?\d*|[+*\/()-^]|(log|ln|sin|cos|tan|csc|sec|cot|asin|acos|atan)/g));
+    return expression.match(/\d+\.?\d*|[+*\/()-^]|(log|ln|sin|cos|tan|csc|sec|cot|asin|acos|atan)/g);
 }
 
 function infixToPostfix(tokens) {
@@ -71,12 +86,12 @@ function evaluatePostfix(postfixTokens) {
         if (!isNaN(token)) {
             stack.push(parseFloat(token));
         } else if (functions[token]) {
+            let a = stack.pop();
+            stack.push(functions[token].fn(a));
+        } else if (ops[token]) {
             let b = stack.pop();
             let a = stack.pop();
-            stack.push(functions[token].fn(b, a));
-        } else if (ops[token]) {
-            let a = stack.pop();
-            stack.push(ops[token].fn(a));
+            stack.push(ops[token].fn(b,a));
         }
     });
     
