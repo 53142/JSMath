@@ -1,5 +1,6 @@
 html {
     font-family: 'Courier New', Courier, monospace;
+    font-weight: 600;
 }
 
 body {
@@ -8,6 +9,7 @@ body {
     background-color: lightgray;
     text-align: center;
     animation: fadeInAnimation ease 1.5s;
+    font-size: 24px;
 }
 
 .input {
@@ -22,15 +24,18 @@ body {
 
 input {
     text-align: center;
-    width: 80%;
+    width: 70%;
     padding: 12px 20px;
     margin: 8px 0;
     box-sizing: border-box;
+    font-size: 20px;
 }
 
 input:focus {
     animation: inputAnimation ease 0.3s;
     background-color: rgb(205, 205, 205);
+    width: 80%;
+    padding: 15px 25px;
 }
 
 button {
@@ -49,6 +54,8 @@ button:active {
     opacity: 0.8;
 }
 
+button:
+
 .answer {
     padding: 5px;
     font-size: 24px;
@@ -66,9 +73,13 @@ button:active {
 @keyframes inputAnimation {
     0% {
         background-color: lightgray;
+        width: 70%;
+        padding: 12px 20px;
     }
     100% {
         background-color: rgb(205, 205, 205);
+        width: 80%;
+        padding: 15px 25px;
     }
 }
 
@@ -97,15 +108,4 @@ a:hover {
 
 a:active {
     color: rgb(132, 132, 132);
-}
-
-footer {
-    position: sticky;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    background-color: #333;
-    color: white;
-    text-align: center;
-    border-radius: 7px;
 }

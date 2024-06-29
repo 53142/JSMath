@@ -6,13 +6,15 @@ const ops = {
     '+': { precedence: 1, associativity: 'L', fn: (a, b) => a + b },
     '-': { precedence: 1, associativity: 'L', fn: (a, b) => a - b },
     '*': { precedence: 2, associativity: 'L', fn: (a, b) => a * b },
+    '×': { precedence: 2, associativity: 'L', fn: (a, b) => a * b },
+    'x': { precedence: 2, associativity: 'L', fn: (a, b) => a * b }, 
     '/': { precedence: 2, associativity: 'L', fn: (a, b) => a / b },
+    '÷': { precedence: 2, associativity: 'L', fn: (a, b) => a / b },   
     '^': { precedence: 3, associativity: 'R', fn: (a, b) => Math.pow(a, b) }
 };
 
 const functions = {
     'log': { fn: (a) => Math.log10(a) },
-    'ln': { fn: (a) => Math.ln(a) },
     'sin': { fn: (a) => Math.sin(a) },
     'cos': { fn: (a) => Math.cos(a) },
     'tan': { fn: (a) => Math.tan(a) },
@@ -22,14 +24,15 @@ const functions = {
     'asin': { fn: (a) => Math.asin(a) },
     'acos': { fn: (a) => Math.acos(a) },
     'atan': { fn: (a) => Math.atan(a) },
+    'sqrt': { fn: (a) => Math.sqrt(a) },
     'max': { fn: (a,b) => Math.max(a,b) },
     'min': { fn: (a,b) => Math.min(a,b) }
 };
 
 function tokenize(expression) {
     // Split the input string into tokens (numbers, operators, parentheses)
-    console.log("tokenized: ", expression.match(/\d+\.?\d*|[+*\/()-^]|(log|ln|sin|cos|tan|csc|sec|cot|asin|acos|atan|max|min)/g));
-    return expression.match(/\d+\.?\d*|[+*\/()-^]|(log|ln|sin|cos|tan|csc|sec|cot|asin|acos|atan|max|min)/g);
+    console.log("tokenized: ", expression.match(/\d+\.?\d*|[+*\/()-^]|(log|sin|cos|tan|csc|sec|cot|asin|acos|atan|max|min|÷|×|x|sqrt|π|pi|e)/g));
+    return expression.match(/\d+\.?\d*|[+*\/()-^]|(log|sin|cos|tan|csc|sec|cot|asin|acos|atan|max|min|÷|×|x|sqrt|π|pi|e)/g);
 }
 
 function infixToPostfix(tokens) {
@@ -68,6 +71,10 @@ function infixToPostfix(tokens) {
             if (functions[stack[stack.length - 1]]) {
                 output.push(stack.pop());
             }
+        } else if (token === 'π' || token === 'pi') {
+            output.push(Math.PI);
+        } else if (token === 'e') {
+            output.push(Math.E);
         }
 
         //DEBUG LOGGING
@@ -120,14 +127,14 @@ function evaluateExpression(expression) {
 }
 
 //const regex = /^[0-9,\(,\)]+([+,-,*,\/,\(,\)]+[0-9,\(,\)]+)+$/gm;
-const regex = /^[A-z,0-9,\(\),+,\*,\/,-,.]*$/
+const regex = /^[A-z,0-9,\(\),+,\*,\/,-,.,÷,×,x,π]*$/
 
 let input = document.querySelector('input');
 let answer = document.querySelector('#answer');
 let button = document.querySelector('#calculate');
 
 input.addEventListener("keydown", function(event) {
-    if (event.code === "Enter") {
+    if (event.code === "Enter" || event.code === "NumpadEnter") {
         calculate();
     }
 });
@@ -138,11 +145,13 @@ function calculate() {
     let value = input.value;
     
     // If textbox contains number followed by math operation (+,-,*,/) followed by number
-    if (input.value.match(regex)){
-
+    if (input.value === '') {
+        answer.innerHTML = '';
+    }
+    else if (input.value.match(regex)){
         let expression = value;
         let result = evaluateExpression(expression);
-        answer.innerHTML = result;
+        answer.innerHTML = Math.round(result * 10000000) / 10000000;
         console.log(`The result of '${expression}' is ${result}`);
     }
     else {

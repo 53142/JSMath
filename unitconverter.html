@@ -8,12 +8,15 @@
     <title>Unit Converter</title>
 </head>
 <body>
+    <h1>Unit Converter</h1>
     <br>
     <label for="types">Choose a type of conversion:</label>
     <select name="types" id="types">
         <option value="distance">Distance</option>
+        <option value="area">Area</option>
         <option value="mass">Mass</option>
         <option value="time">Time</option>
+        <option value="speed">Speed</option>
     </select>
 
     <div class="converter">
@@ -33,7 +36,11 @@
     
     
     <button id="convert">Convert</button>
+    <p>*Conversion rounded to nearest 100 thousandth*</p>
 
+    <div id="othercalculators">
+        <a href="index.html">Calculator</a>
+    </div>
     <script src="unitconverter.js"></script>
 </body>
 </html>
