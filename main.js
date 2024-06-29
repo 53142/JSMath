@@ -120,7 +120,7 @@ function evaluateExpression(expression) {
 }
 
 //const regex = /^[0-9,\(,\)]+([+,-,*,\/,\(,\)]+[0-9,\(,\)]+)+$/gm;
-const regex = /^[A-z,0-9,\(\),+,\*,\/,-]*$/
+const regex = /^[A-z,0-9,\(\),+,\*,\/,-,.]*$/
 
 let input = document.querySelector('input');
 let answer = document.querySelector('#answer');
