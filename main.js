@@ -1,4 +1,4 @@
-// FIX BUG WITH GETTING INACURATE ANSWERS WHEN MULTIPLYING FUNCTIONS TOGETHER
+// FIX BUG WITH GETTING INACCURATE ANSWERS WHEN MULTIPLYING FUNCTIONS TOGETHER
 
 
 // Define operator precedence and functions
@@ -23,12 +23,13 @@ const functions = {
     'acos': { fn: (a) => Math.acos(a) },
     'atan': { fn: (a) => Math.atan(a) },
     'max': { fn: (a,b) => Math.max(a,b) },
+    'min': { fn: (a,b) => Math.min(a,b) }
 };
 
 function tokenize(expression) {
     // Split the input string into tokens (numbers, operators, parentheses)
-    console.log("tokenized: ", expression.match(/\d+\.?\d*|[+*\/()-^]|(log|ln|sin|cos|tan|csc|sec|cot|asin|acos|atan|max)/g));
-    return expression.match(/\d+\.?\d*|[+*\/()-^]|(log|ln|sin|cos|tan|csc|sec|cot|asin|acos|atan|max)/g);
+    console.log("tokenized: ", expression.match(/\d+\.?\d*|[+*\/()-^]|(log|ln|sin|cos|tan|csc|sec|cot|asin|acos|atan|max|min)/g));
+    return expression.match(/\d+\.?\d*|[+*\/()-^]|(log|ln|sin|cos|tan|csc|sec|cot|asin|acos|atan|max|min)/g);
 }
 
 function infixToPostfix(tokens) {
@@ -67,7 +68,6 @@ function infixToPostfix(tokens) {
             if (functions[stack[stack.length - 1]]) {
                 output.push(stack.pop());
             }
-            stack.pop();
         }
 
         //DEBUG LOGGING
@@ -81,27 +81,31 @@ function infixToPostfix(tokens) {
         output.push(stack.pop());
     }
     
-    console.log("output: ", output);
+    console.log("Final Output: ", output);
     return output;
 }
 
 function evaluatePostfix(postfixTokens) {
-    console.log("postfixTokens2: ", postfixTokens);
     // Evaluate the postfix expression using a stack
     let stack = [];
     
     postfixTokens.forEach(token => {
-        console.log("stack: ", stack);
         if (!isNaN(token)) {
             stack.push(parseFloat(token));
         } else if (functions[token]) {
             let a = stack.pop();
-            stack.unshift(functions[token].fn(a));
+            if (functions[token].fn.length > 1) {
+                let b = stack.pop();
+                stack.unshift(functions[token].fn(a,b));
+            } else {
+                stack.unshift(functions[token].fn(a));
+            }
         } else if (ops[token]) {
             let b = stack.pop();
             let a = stack.pop();
             stack.push(ops[token].fn(a,b));
         }
+        console.log("stack: ", stack);
     });
     
     return stack[0];
@@ -111,8 +115,8 @@ function evaluateExpression(expression) {
     // Tokenize, convert to postfix, and evaluate
     let tokens = tokenize(expression);
     let postfixTokens = infixToPostfix(tokens);
-    //let result = evaluatePostfix(postfixTokens);
-    //return result;
+    let result = evaluatePostfix(postfixTokens);
+    return result;
 }
 
 //const regex = /^[0-9,\(,\)]+([+,-,*,\/,\(,\)]+[0-9,\(,\)]+)+$/gm;
