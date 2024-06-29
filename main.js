@@ -1,9 +1,6 @@
 // FIX BUG WITH GETTING INACURATE ANSWERS WHEN MULTIPLYING FUNCTIONS TOGETHER
 
 
-
-
-
 // Define operator precedence and functions
 const ops = {
     '+': { precedence: 1, associativity: 'L', fn: (a, b) => a + b },
@@ -25,12 +22,13 @@ const functions = {
     'asin': { fn: (a) => Math.asin(a) },
     'acos': { fn: (a) => Math.acos(a) },
     'atan': { fn: (a) => Math.atan(a) },
+    'max': { fn: (a,b) => Math.max(a,b) },
 };
 
 function tokenize(expression) {
     // Split the input string into tokens (numbers, operators, parentheses)
-    console.log("tokenized: ", expression.match(/\d+\.?\d*|[+*\/()-^]|(log|ln|sin|cos|tan|csc|sec|cot|asin|acos|atan)/g));
-    return expression.match(/\d+\.?\d*|[+*\/()-^]|(log|ln|sin|cos|tan|csc|sec|cot|asin|acos|atan)/g);
+    console.log("tokenized: ", expression.match(/\d+\.?\d*|[+*\/()-^]|(log|ln|sin|cos|tan|csc|sec|cot|asin|acos|atan|max)/g));
+    return expression.match(/\d+\.?\d*|[+*\/()-^]|(log|ln|sin|cos|tan|csc|sec|cot|asin|acos|atan|max)/g);
 }
 
 function infixToPostfix(tokens) {
@@ -39,19 +37,20 @@ function infixToPostfix(tokens) {
     let output = [];
     let stack = [];
     
+    let i=0
     tokens.forEach(token => {
+        i++
+
         // If token is number, add to output
         if (!isNaN(token)) {
             output.push(token);
         } else if (functions[token]) { // If token is function
             stack.push(token);
-            console.log("stack: ", stack);
         } else if (ops[token]) { // If token is operator
-            console.log(ops[token])
             // While there are items in the stack and the top item in the stack is an operator
             while (stack.length && ops[stack[stack.length - 1]] && (
-                (ops[token].associativity === 'L' && ops[token].precedence <= ops[stack[stack.length - 1]].precedence) ||
-                (ops[token].associativity === 'R' && ops[token].precedence < ops[stack[stack.length - 1]].precedence)
+                (ops[stack[stack.length - 1]].precedence > ops[token].precedence) ||
+                (ops[stack[stack.length - 1]].precedence == ops[token].precedence && ops[token].associativity === 'L')
             )) {
                 output.push(stack.pop());
             }
@@ -62,11 +61,19 @@ function infixToPostfix(tokens) {
             while (stack.length && stack[stack.length - 1] !== '(') {
                 output.push(stack.pop());
             }
+            if (stack[stack.length - 1] === '(') {
+                stack.pop();
+            }
             if (functions[stack[stack.length - 1]]) {
                 output.push(stack.pop());
             }
             stack.pop();
         }
+
+        //DEBUG LOGGING
+        console.log("time through loop: ", i)
+        console.log("output: ", output);
+        console.log("stack: ", stack);
     });
     
     // Add all remaining operators in the stack to the output
@@ -74,6 +81,7 @@ function infixToPostfix(tokens) {
         output.push(stack.pop());
     }
     
+    console.log("output: ", output);
     return output;
 }
 
@@ -83,15 +91,16 @@ function evaluatePostfix(postfixTokens) {
     let stack = [];
     
     postfixTokens.forEach(token => {
+        console.log("stack: ", stack);
         if (!isNaN(token)) {
             stack.push(parseFloat(token));
         } else if (functions[token]) {
             let a = stack.pop();
-            stack.push(functions[token].fn(a));
+            stack.unshift(functions[token].fn(a));
         } else if (ops[token]) {
             let b = stack.pop();
             let a = stack.pop();
-            stack.push(ops[token].fn(b,a));
+            stack.push(ops[token].fn(a,b));
         }
     });
     
@@ -102,8 +111,8 @@ function evaluateExpression(expression) {
     // Tokenize, convert to postfix, and evaluate
     let tokens = tokenize(expression);
     let postfixTokens = infixToPostfix(tokens);
-    let result = evaluatePostfix(postfixTokens);
-    return result;
+    //let result = evaluatePostfix(postfixTokens);
+    //return result;
 }
 
 //const regex = /^[0-9,\(,\)]+([+,-,*,\/,\(,\)]+[0-9,\(,\)]+)+$/gm;
