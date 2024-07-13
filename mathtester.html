@@ -3,21 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
     <title>Math Tester</title>
 </head>
 <body>
     <p>This is a short program that tests you on various math facts</p>
+    <hr>
     <p id="scorelabel">Score:</p>
     <p id="score">0</p>
     <p id="timerlabel">Time:</p>
     <p id="timer"></p>
+    <p id="highscorelabel">High Score:</p>
+    <p id="highscore">0</p>
+    <hr>
     <div id="quiz">
         <div id="question">
             <p id="questiontext"></p>
         </div>
         <div id="input">
-            <input title="mathinput" id="inputbox" placeholder="1+1"></input>
+            <input title="mathinput" id="inputbox" placeholder="Enter answer here"></input>
         </div>
+        <button id="start">Start</button>
     </div>
     <script src="mathtester.js"></script>
 </body>
