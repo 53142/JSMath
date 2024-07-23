@@ -8,6 +8,8 @@ const operations = ["+", "-", "*", "/"];
 let QuestionAnswer = null;
 let gameStarted = false;
 
+let sec = 30;
+let timerID = null;
 
 function getQuestionAnswer() {
     let operation = operations[Math.floor(Math.random() * operations.length)];
@@ -50,22 +52,27 @@ function makeQuestion() {
 }
 
 function startTimer() {
-    var sec = 30;
-    setInterval(function(){
-        Timer.innerHTML=sec;
+    sec = 30;
+    timerID = setInterval(timer, 1000);
+}
+
+function timer() {
+    Timer.innerHTML=sec;
         sec--;
         if (sec < 0) {
             timeUp();
             return;
         }
-    }, 1000);
 }
 
 function timeUp() {
+    clearInterval(timerID);
+    timerID = null;
+
     gameStarted = false;
-    clearInterval(timer);
     Timer.innerHTML = "0";
     Question.innerHTML = "";
+
     if (parseInt(score.innerHTML) > parseInt(highscore.innerHTML)) {
         highscore.innerHTML = score.innerHTML;
     }

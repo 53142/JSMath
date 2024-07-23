@@ -2,20 +2,44 @@
 .converter {
     display: -webkit-flex;
     display: flex;
+}
+
+
+select {
+  background: #f5f5f5;
+  height: 32px;
+  border: none;
+  min-width: 70px;
+  width: 350px;
+  font-size: 18px;
+  border-radius: .25em;
+}
+
+option {
+  background: #f5f5f5;
+  color: black;
+  font-size: 15px;
+  padding: 5px;
+}
+
+input {
+  border-radius: .25em;
+  border: none;
+}
+
+
+/* Create two equal columns that sits next to each other */
+.from, .to {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  padding: 10px;
+}
+
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media (max-width: 600px) {
+  .row {
+    -webkit-flex-direction: column;
+    flex-direction: column;
   }
-  
-  /* Create two equal columns that sits next to each other */
-  .from, .to {
-    -webkit-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
-    padding: 10px;
-  }
-  
-  /* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
-  @media (max-width: 600px) {
-    .row {
-      -webkit-flex-direction: column;
-      flex-direction: column;
-    }
-  }
+}
