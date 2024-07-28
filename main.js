@@ -1,7 +1,4 @@
-// FIX BUG WITH GETTING INACCURATE ANSWERS WHEN MULTIPLYING FUNCTIONS TOGETHER
-
-
-// Define operator precedence and functions
+// Define operator precedence
 const ops = {
     '+': { precedence: 1, associativity: 'L', fn: (a, b) => a + b },
     '-': { precedence: 1, associativity: 'L', fn: (a, b) => a - b },
@@ -13,31 +10,42 @@ const ops = {
     '^': { precedence: 3, associativity: 'R', fn: (a, b) => Math.pow(a, b) }
 };
 
+// Define functions
 const functions = {
     'log': { fn: (a) => Math.log10(a) },
     'sin': { fn: (a) => Math.sin(a) },
     'cos': { fn: (a) => Math.cos(a) },
     'tan': { fn: (a) => Math.tan(a) },
-    'csc': { fn: (a) => 1/Math.sin(a) },
-    'sec': { fn: (a) => 1/Math.cos(a) },
-    'cot': { fn: (a) => 1/Math.tan(a) },
+    'csc': { fn: (a) => 1 / Math.sin(a) },
+    'sec': { fn: (a) => 1 / Math.cos(a) },
+    'cot': { fn: (a) => 1 / Math.tan(a) },
     'asin': { fn: (a) => Math.asin(a) },
     'acos': { fn: (a) => Math.acos(a) },
     'atan': { fn: (a) => Math.atan(a) },
     'sqrt': { fn: (a) => Math.sqrt(a) },
-    'max': { fn: (a,b) => Math.max(a,b) },
-    'min': { fn: (a,b) => Math.min(a,b) }
+    'max': { fn: (a, b) => Math.max(a, b) },
+    'min': { fn: (a, b) => Math.min(a, b) }
 };
 
+// Split the input string into tokens (numbers, operators, parentheses)
 function tokenize(expression) {
-    // Split the input string into tokens (numbers, operators, parentheses)
-    console.log("tokenized: ", expression.match(/\d+\.?\d*|[+*\/()-^]|(log|sin|cos|tan|csc|sec|cot|asin|acos|atan|max|min|÷|×|x|sqrt|π|pi|e)/g));
-    return expression.match(/\d+\.?\d*|[+*\/()-^]|(log|sin|cos|tan|csc|sec|cot|asin|acos|atan|max|min|÷|×|x|sqrt|π|pi|e)/g);
+    console.log("expression: ", expression);
+    if (expression.match(/\(.*-\d.*\)*/g)) {
+        // replace all instances of - with (0-
+        expression = expression.replace(/-/g, '(0-');
+
+        // add closing parentheses
+        //expression = expression.replace(/\(0\-\d.*/g, '$&)');
+    }
+    if (expression.match(/√/g)) {
+        expression = expression.replace(/√/g, 'sqrt(');
+    }
+    console.log("tokenized: ", expression.match(/\d+\.?\d*|[+*\/()-^]|(log|sin|cos|tan|csc|sec|cot|asin|acos|atan|max|min|÷|×|x|sqrt|√|π|pi|e|𝜏|tau)/g));
+    return expression.match(/\d+\.?\d*|[+*\/()-^]|(log|sin|cos|tan|csc|sec|cot|asin|acos|atan|max|min|÷|×|x|sqrt|√|π|pi|e|𝜏|tau)/g);
 }
 
+// Convert infix expression to postfix using the Shunting Yard algorithm
 function infixToPostfix(tokens) {
-    // Convert infix expression to postfix using the Shunting Yard algorithm
-
     let output = [];
     let stack = [];
     
@@ -75,12 +83,16 @@ function infixToPostfix(tokens) {
             output.push(Math.PI);
         } else if (token === 'e') {
             output.push(Math.E);
+        } else if (token === '𝜏' || token === 'tau') {
+            output.push(Math.PI / 2);
+        } else {
+            console.log("Invalid token: ", token);
         }
 
         //DEBUG LOGGING
-        console.log("time through loop: ", i)
-        console.log("output: ", output);
-        console.log("stack: ", stack);
+        //console.log("time through loop: ", i)
+        //console.log("output: ", output);
+        //console.log("stack: ", stack);
     });
     
     // Add all remaining operators in the stack to the output
@@ -88,7 +100,7 @@ function infixToPostfix(tokens) {
         output.push(stack.pop());
     }
     
-    console.log("Final Output: ", output);
+    console.log("Postfix Output: ", output);
     return output;
 }
 
@@ -97,9 +109,9 @@ function evaluatePostfix(postfixTokens) {
     let stack = [];
     
     postfixTokens.forEach(token => {
-        if (!isNaN(token)) {
+        if (!isNaN(token)) {    // If token is a number
             stack.push(parseFloat(token));
-        } else if (functions[token]) {
+        } else if (functions[token]) {  // If token is a function
             let a = stack.pop();
             if (functions[token].fn.length > 1) {
                 let b = stack.pop();
@@ -107,10 +119,16 @@ function evaluatePostfix(postfixTokens) {
             } else {
                 stack.unshift(functions[token].fn(a));
             }
-        } else if (ops[token]) {
+        } else if (ops[token]) { // If token is an operator
             let b = stack.pop();
             let a = stack.pop();
-            stack.push(ops[token].fn(a,b));
+            
+            // Deal with negative numbers
+            if (token === '-' && a === undefined) {
+                stack.push(-b);
+            } else {
+                stack.push(ops[token].fn(a,b));
+            }
         }
         console.log("stack: ", stack);
     });
@@ -127,7 +145,7 @@ function evaluateExpression(expression) {
 }
 
 //const regex = /^[0-9,\(,\)]+([+,-,*,\/,\(,\)]+[0-9,\(,\)]+)+$/gm;
-const regex = /^[A-z,0-9,\(\),+,\*,\/,-,.,÷,×,x,π]*$/
+const regex = /^[A-z0-9,\(\)+\*\/\-.÷×xπ√𝜏tau]*$/
 
 let input = document.querySelector('input');
 let answer = document.querySelector('#answer');
@@ -149,6 +167,7 @@ function calculate() {
         answer.innerHTML = '';
     }
     else if (input.value.match(regex)){
+        console.log("here")
         let expression = value;
         let result = evaluateExpression(expression);
         answer.innerHTML = Math.round(result * 10000000) / 10000000;
