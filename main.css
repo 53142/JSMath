@@ -8,7 +8,7 @@ body {
     padding: 0;
     background-color: lightgray;
     text-align: center;
-    animation: fadeInAnimation ease 1.5s;
+    animation: fadeInAnimation ease 1.3s;
     font-size: 30px;
 }
 
@@ -23,12 +23,17 @@ body {
 }
 
 input {
+    font-size: 20px;
+    background-color: rgb(232, 232, 232);
     text-align: center;
     width: 70%;
     padding: 12px 20px;
     margin: 8px 0;
-    box-sizing: border-box;
-    font-size: 20px;
+    border: none;
+    border-radius: 8px;
+    filter: drop-shadow(3px 2px 1px gray);
+    transition: all 0.5s ease;
+
 }
 
 input:focus {
@@ -36,6 +41,7 @@ input:focus {
     background-color: rgb(230, 230, 230);
     width: 80%;
     padding: 15px 25px;
+    outline: none;
 }
 
 button {
@@ -60,33 +66,9 @@ button:active {
 
 .answer {
     padding: 5px;
-    font-size: 24px;
+    font-size: 35px;
     font-weight: bold;
 }
-@keyframes fadeInAnimation {
-    0%{
-        opacity: 0;
-    }
-    100%{
-        opacity: 1;
-    }
-}
-
-@keyframes inputAnimation {
-    0% {
-        background-color: lightgray;
-        width: 70%;
-        padding: 12px 20px;
-    }
-    100% {
-        background-color: rgb(230, 230, 230);
-        width: 80%;
-        padding: 15px 25px;
-    }
-}
-
-
-
 
 hr {
     border: 1px solid rgb(55, 55, 55);
@@ -110,4 +92,26 @@ a:hover {
 
 a:active {
     color: rgb(132, 132, 132);
+}
+
+@keyframes fadeInAnimation {
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+@keyframes inputAnimation {
+    0% {
+        background-color: rgb(232, 232, 232);
+        width: 70%;
+        padding: 12px 20px;
+    }
+    100% {
+        background-color: rgb(230, 230, 230);
+        width: 80%;
+        padding: 15px 25px;
+    }
 }
