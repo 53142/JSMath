@@ -1,3 +1,4 @@
+"use strict";
 let types = document.getElementById('types');
 
 let fromLabel = document.getElementById('from');

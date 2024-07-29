@@ -1,16 +1,15 @@
-Question = document.getElementById("question");
-Input = document.getElementById("inputbox");
-Score = document.getElementById("score");
-Timer = document.getElementById("timer");
-Start = document.getElementById("start");
-DifficultySelector = document.getElementById("difficultyselector");
+"use strict";
+let Question = document.getElementById("question");
+let Input = document.getElementById("inputbox");
+let Score = document.getElementById("score");
+let Timer = document.getElementById("timer");
+let Start = document.getElementById("start");
+let DifficultySelector = document.getElementById("difficultyselector");
 
-const modes = ["easy", "medium", "hard"];
-
-const simple_operations = ["+", "-", "*", "/"];
+let mode = 0;
 let gameStarted = false;
 
-let question = null;
+let operations = null;
 let answer = null;
 
 let sec = 30;
@@ -24,6 +23,7 @@ Start.addEventListener("click", function() {
         gameStarted = true;
         score.innerHTML = "0";
         Input.value = "";
+        mode = DifficultySelector.selectedIndex;
 
         // Start timer
         sec = 30;
@@ -36,15 +36,7 @@ Start.addEventListener("click", function() {
             }
         }, 1000);
 
-        let QuestionAnswer = getQuestion(DifficultySelector.selectedIndex);
-        // Set question/answer variables
-        question = QuestionAnswer[0];
-        answer = QuestionAnswer[1];
-        
-        console.log(QuestionAnswer);
-
-        // Display question
-        Question.innerHTML = question;
+        getQuestion();
     }
 })
 
@@ -52,14 +44,13 @@ Input.addEventListener("keyup", function(event) {
     if (gameStarted && (Input.value == answer)) {
         score.innerHTML = parseInt(score.innerHTML) + 1;
         Input.value = "";
-        correctanswer = true;
+        getQuestion();
     }
 })
 
 
 // Game Functions
-function getQuestion(mode) {
-    let answer = null;
+function getQuestion() {
     let num1 = null;
     let num2 = null;
     let operation = null;
@@ -67,7 +58,34 @@ function getQuestion(mode) {
     switch (mode) {
         case 0: // Easy
             // Choose random operation
-            operation = simple_operations[Math.floor(Math.random() * simple_operations.length)];
+            operations = ["+", "-"];
+            operation = operations[Math.floor(Math.random() * operations.length)];
+
+            // Choose random number
+            num1 = Math.floor(Math.random() * 13);
+
+            num2 = Math.floor(Math.random() * 13);
+            
+            // Get answer
+            switch(operation) {
+                case "+":
+                    answer = num1 + num2;
+                    break;
+                case "-":
+                    answer = num1 - num2;
+                    break;
+                case "*":
+                    answer = num1 * num2;
+                    break;
+                case "/":
+                    answer = num1 / num2;
+                    break;
+            }
+            break;
+        case 1: // Medium
+            // Choose random operation
+            operations = ["+", "-", "*", "/"];
+            operation = operations[Math.floor(Math.random() * operations.length)];
 
             // Choose random number
             num1 = Math.floor(Math.random() * 13);
@@ -96,13 +114,137 @@ function getQuestion(mode) {
                     break;
             }
             break;
-        case 1: // Medium
-            break;
 
         case 2: // Hard
+            // Choose random operation
+            operations = ["+", "-", "*", "/"];
+            operation = operations[Math.floor(Math.random() * operations.length)];
+
+            // Choose random number
+            num1 = Math.floor(Math.random() * 21);
+
+            // If division, prevent division by zero and decimal points
+            if (operation == "/") {
+                do {
+                    num2 = Math.floor(Math.random() * 20) + 1;
+                } while (num1 % num2 != 0);
+            } else {
+                num2 = Math.floor(Math.random() * 21);
+            }
+            // Get answer
+            switch(operation) {
+                case "+":
+                    answer = num1 + num2;
+                    break;
+                case "-":
+                    answer = num1 - num2;
+                    break;
+                case "*":
+                    answer = num1 * num2;
+                    break;
+                case "/":
+                    answer = num1 / num2;
+                    break;
+            }
+            break;
+        case 3: // Extremely Hard
+            // Choose random operation
+            operations = ["+", "-", "*", "/"];
+            operation = operations[Math.floor(Math.random() * operations.length)];
+
+            // Choose random number
+            num1 = Math.floor(Math.random() * 51);
+
+            // If division, prevent division by zero and decimal points
+            if (operation == "/") {
+                do {
+                    num2 = Math.floor(Math.random() * 50) + 1;
+                } while (num1 % num2 != 0);
+            } else {
+                num2 = Math.floor(Math.random() * 51);
+            }
+            // Get answer
+            switch(operation) {
+                case "+":
+                    answer = num1 + num2;
+                    break;
+                case "-":
+                    answer = num1 - num2;
+                    break;
+                case "*":
+                    answer = num1 * num2;
+                    break;
+                case "/":
+                    answer = num1 / num2;
+                    break;
+            }
+            break;
+        case 4: // Insane
+            // Choose random operation
+            operations = ["+", "-", "*", "/"];
+            operation = operations[Math.floor(Math.random() * operations.length)];
+
+            // Choose random number
+            num1 = Math.floor(Math.random() * 101);
+
+            // If division, prevent division by zero and decimal points
+            if (operation == "/") {
+                num2 = Math.floor(Math.random() * 100) + 1;
+            } else {
+                num2 = Math.floor(Math.random() * 101);
+            }
+            // Get answer
+            switch(operation) {
+                case "+":
+                    answer = num1 + num2;
+                    break;
+                case "-":
+                    answer = num1 - num2;
+                    break;
+                case "*":
+                    answer = num1 * num2;
+                    break;
+                case "/":
+                    // Round to nearest hundredth
+                    answer = Math.round(num1 / num2 * 100) / 100;
+                    break;
+            }
+            break;
+        case 5: // Super Insane
+            // Choose random operation
+            operations = ["+", "-", "*", "/"];
+            operation = operations[Math.floor(Math.random() * operations.length)];
+
+            // Choose random number
+            num1 = Math.floor(Math.random() * 101);
+
+            // If division, prevent division by zero and decimal points
+            if (operation == "/") {
+                num2 = Math.floor(Math.random() * 100) + 1;
+            } else {
+                num2 = Math.floor(Math.random() * 101);
+            }
+            // Get answer
+            switch(operation) {
+                case "+":
+                    answer = num1 + num2;
+                    break;
+                case "-":
+                    answer = num1 - num2;
+                    break;
+                case "*":
+                    answer = num1 * num2;
+                    break;
+                case "/":
+                    // Round to nearest ten thousandth
+                    answer = Math.round(num1 / num2 * 10000) / 10000;
+                    break;
+            }
             break;
     }
-    return [`What is ${num1} ${operation} ${num2}?`, answer];
+    
+    // Display question
+    Question.innerHTML = `What is ${num1} ${operation} ${num2}?`;
 }
 
 function timeUp() {

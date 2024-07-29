@@ -1,3 +1,4 @@
+"use strict";
 // Define operator precedence
 const ops = {
     '+': { precedence: 1, associativity: 'L', fn: (a, b) => a + b },
