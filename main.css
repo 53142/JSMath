@@ -22,22 +22,44 @@ body {
     background-color: lightgray;
 }
 
+select {
+    background-color: rgb(232, 232, 232);
+    height: 32px;
+    border: none;
+    min-width: 70px;
+    width: 350px;
+    font-size: 18px;
+    border-radius: .3em;
+}
+
+select:focus {
+    outline: none;
+    background-color: rgb(230, 230, 230);
+    border: .1em solid #545454;
+}
+  
+option {
+    background-color: rgb(232, 232, 232);
+    font-size: 18px;
+    padding: 10px 20px;
+}
+
 input {
     font-size: 20px;
     background-color: rgb(232, 232, 232);
     text-align: center;
     width: 70%;
-    padding: 12px 20px;
+    padding: 13px 20px;
     margin: 8px 0;
     border: none;
-    border-radius: 8px;
+    border-radius: 0.5em;
     filter: drop-shadow(3px 2px 1px gray);
     transition: all 0.5s ease;
-
 }
 
 input:focus {
-    animation: inputAnimation ease 0.3s;
+    will-change: transform;
+    animation: inputAnimation ease 0.4s;
     background-color: rgb(230, 230, 230);
     width: 80%;
     padding: 15px 25px;
@@ -51,12 +73,14 @@ button {
     margin: 8px 0;
     width: 80%;
     height: 60px;
-    border-radius: 10px;
+    border-radius: 1em;
     border: none;
     cursor: pointer;
+    transition: all 0.5s ease;
 }
 
 button:hover {
+    transition: opacity 0.2s ease;
     opacity: 0.9;
 }
 
@@ -71,7 +95,7 @@ button:active {
 }
 
 hr {
-    border: 1px solid rgb(55, 55, 55);
+    border: 1px solid #545454;
 }
 
 h1 {
@@ -79,15 +103,15 @@ h1 {
 }
 
 a:link {
-    color: rgb(27, 27, 27);
+    color: black;
 }
 
 a:visited {
-    color: rgb(0, 0, 0);
+    color: black;
 }
 
 a:hover {
-    color: rgb(67, 67, 67);
+    color: #545454;
 }
 
 a:active {
