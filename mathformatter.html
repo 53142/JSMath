@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MathJax</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="mathformatter.css">
+    <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+    <p id="mathoutput">Enter your math expressions below to display here. For example:<br>$$a^2+b^2=c^2$$</p>
+    <select title="Autoformat" id="autoformat">
+        <option value="True">True</option>
+        <option value="False">False</option>
+    </select>
+    <p>Enter MaxJax Input</p>
+    <textarea id="mathinput" placeholder="Enter a math expression here"></textarea>
+
+    <p>Helpful <a href="https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference" rel="noopener" target="_blank" >Guide</a></p>
+    
+    <script src="mathformatter.js"></script>    
+</body>
+</html>
