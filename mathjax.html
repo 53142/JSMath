@@ -31,14 +31,12 @@
 
     <script>
         let autoformat = true;
-        alert("Autoformat is now " + autoformat);   
         document.getElementById("autoformat").addEventListener("change", function() {
             if (document.getElementById("autoformat").value == "True") {
                 autoformat = true;
             } else {
                 autoformat = false;
             }
-            alert("Autoformat is now " + autoformat);
         });
 
         document.getElementById("mathinput").addEventListener("input", function() {

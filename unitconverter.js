@@ -7,7 +7,7 @@ let toLabel = document.getElementById('to');
 let fromValue = document.getElementById('fromValue');
 let toValue = document.getElementById('toValue');
 
-let convertUnits = document.getElementById('convert');
+let convertButton = document.getElementById('convert');
 
 
 
@@ -22,7 +22,13 @@ const values = {
 getValues();
 
 types.addEventListener('change', () => getValues());
-convertUnits.addEventListener('click', () => convert());
+convertButton.addEventListener('click', () => convert());
+
+fromValue.addEventListener("keydown", function(event) {
+    if (event.code === "Enter" || event.code === "NumpadEnter") {
+        convert();
+    }
+});
 
 function getValues() {
     let value = types.value;
@@ -54,7 +60,7 @@ function convert() {
     console.log("fromValue: ", fromValue.value);
 
     // Check if the value of from is a number
-    if (from.value !== NaN) {
+    if (!isNaN(fromValue.value)) {
         let from = fromLabel.value;
         let to = toLabel.value;
         let value = fromValue.value;
@@ -71,6 +77,6 @@ function convert() {
         toValue.value = Math.round(value * fromIndexValue / toIndexValue * 100000) / 100000;
 
     } else {
-        alert("Please enter a valid number to convert");
+        console.log("Invalid input!");
     }
 }
