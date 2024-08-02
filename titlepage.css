@@ -1,0 +1,37 @@
+.scroll-watcher {
+    height: 0.5%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    background-color: darkgray;
+    transform-origin: left;
+    scale: 0 1;
+    animation: scroll-watcher 1s linear;
+    animation-timeline: scroll();
+}
+
+div {
+    width: 500px;
+    height: 500px;
+    background-color: black;
+}
+
+.section-text {
+    scale: 0.8;
+    opacity: 0;
+    animation: blur-fade-in linear forwards;
+    
+    animation-range: contain;
+}
+
+@keyframes scroll-watcher {
+    to { scale: 1 1; }
+}
+
+@keyframes blur-fade-in {    
+    to {
+        scale: 1;
+        opacity: 1;
+    }
+}

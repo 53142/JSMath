@@ -59,6 +59,7 @@ input {
     border-radius: 0.5em;
     filter: drop-shadow(3px 2px 1px gray);
     transition: all 0.5s ease;
+    caret-color: rgb(89, 89, 89);
 }
 
 input:focus {
