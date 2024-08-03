@@ -11,16 +11,22 @@
     animation-timeline: scroll();
 }
 
+.trytools {
+    margin: 100px;
+    font-weight: 900;
+    font-size: 1.1em;
+}
+
 img {
     max-width: 95%;
-    
 }
 
 .subsection {
+    margin: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 5px solid black;
+    border: 3px solid black;
 }
 
 .left-side {
@@ -33,10 +39,14 @@ img {
     
 }
 
+.mathformatter {
+    max-height: 50vh;
+}
+
 .section-text {
     scale: 0.9;
     opacity: 0;
-    filter: blur(2px);;
+    filter: blur(2px);
 
     view-timeline: --subjectReveal block;
     animation-timeline: --subjectReveal;
