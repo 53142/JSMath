@@ -11,18 +11,40 @@
     animation-timeline: scroll();
 }
 
-div {
-    width: 500px;
-    height: 500px;
-    background-color: black;
+img {
+    max-width: 95%;
+    
+}
+
+.subsection {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 5px solid black;
+}
+
+.left-side {
+    width: 60%;
+    
+}
+
+.right-side {
+    width: 40%;
+    
 }
 
 .section-text {
-    scale: 0.8;
+    scale: 0.9;
     opacity: 0;
-    animation: blur-fade-in linear forwards;
-    
-    animation-range: contain;
+    filter: blur(2px);;
+
+    view-timeline: --subjectReveal block;
+    animation-timeline: --subjectReveal;
+  
+    animation-name: blur-fade-in;
+    animation-range: entry 40% contain 25%;
+    animation-fill-mode: both;
+    animation-duration: 1ms; /* Firefox requires this to apply the animation */
 }
 
 @keyframes scroll-watcher {
@@ -33,5 +55,6 @@ div {
     to {
         scale: 1;
         opacity: 1;
+        filter: none;
     }
 }
