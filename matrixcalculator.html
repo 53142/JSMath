@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/matrixcalculator.css">
+    <title>Matrix Calculator</title>
+</head>
+<body>
+    <div id="matrices">
+        <div class="matrix">
+            <p>Matrix A</p>
+            <div class="rowcolumnselector">
+                <label for="from">Rows:</label>
+                <input id="rowsValueA" type="number" min=1 max=10 value=4 name="rows"></input>
+                
+                <label for="from">Columns:</label>
+                <input id="columnsValueA" type="number" min=1 max=10 value=4 name="columns"></input>
+            </div>
+            <table id="matrixA">
+                <tr>
+                    <td><input type="number" value=1></input></td>
+                    <td><input type="number" value=1></input></td>
+                    <td><input type="number" value=1></input></td>
+                    <td><input type="number" value=1></input></td>
+                </tr>
+                <tr>
+                    <td><input type="number" value=1></input></td>
+                    <td><input type="number" value=1></input></td>
+                    <td><input type="number" value=1></input></td>
+                    <td><input type="number" value=1></input></td>
+                </tr>
+                <tr>
+                    <td><input type="number" value=1></input></td>
+                    <td><input type="number" value=1></input></td>
+                    <td><input type="number" value=1></input></td>
+                    <td><input type="number" value=1></input></td>
+                </tr>
+                <tr>
+                    <td><input type="number" value=1></input></td>
+                    <td><input type="number" value=1></input></td>
+                    <td><input type="number" value=1></input></td>
+                    <td><input type="number" value=1></input></td>
+                </tr>
+            </table>
+        </div>
+        <div class="matrix">
+            <p>Matrix B</p>
+            <div class="rowcolumnselector">
+                <label for="from">Rows:</label>
+                <input id="rowsValueB" type="number" min=1 max=10 value=4 name="rows"></input>
+                
+                <label for="from">Columns:</label>
+                <input id="columnsValueB" type="number" min=1 max=10 value=4 name="columns"></input>
+            </div>
+            
+            <table id="matrixB">
+                <tr>
+                    <td><input type="number" value=1></input></td>
+                    <td><input type="number" value=1></input></td>
+                    <td><input type="number" value=1></input></td>
+                    <td><input type="number" value=1></input></td>
+                </tr>
+                <tr>
+                    <td><input type="number" value=1></input></td>
+                    <td><input type="number" value=1></input></td>
+                    <td><input type="number" value=1></input></td>
+                    <td><input type="number" value=1></input></td>
+                </tr>
+                <tr>
+                    <td><input type="number" value=1></input></td>
+                    <td><input type="number" value=1></input></td>
+                    <td><input type="number" value=1></input></td>
+                    <td><input type="number" value=1></input></td>
+                </tr>
+                <tr>
+                    <td><input type="number" value=1></input></td>
+                    <td><input type="number" value=1></input></td>
+                    <td><input type="number" value=1></input></td>
+                    <td><input type="number" value=1></input></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script src="/scripts/matrixcalculator.js"></script>
+</body>
+</html>
