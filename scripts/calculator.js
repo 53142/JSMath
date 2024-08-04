@@ -1,18 +1,18 @@
 "use strict";
 
 
-Decimal.set({ precision: 500, toExpNeg: -999, defaults: true });
+Decimal.set({ precision: 50, defaults: true });
 
 // Define operator precedence
 const ops = {
-    '+': { precedence: 1, associativity: 'L', fn: (a, b) => a + b },
-    '-': { precedence: 1, associativity: 'L', fn: (a, b) => a - b },
-    '*': { precedence: 2, associativity: 'L', fn: (a, b) => a * b },
-    '×': { precedence: 2, associativity: 'L', fn: (a, b) => a * b },
-    'x': { precedence: 2, associativity: 'L', fn: (a, b) => a * b }, 
-    '/': { precedence: 2, associativity: 'L', fn: (a, b) => a / b },
-    '÷': { precedence: 2, associativity: 'L', fn: (a, b) => a / b },   
-    '^': { precedence: 3, associativity: 'R', fn: (a, b) => Math.pow(a, b) }
+    '+': { precedence: 1, associativity: 'L', fn: (a, b) => Decimal.add(a, b) },
+    '-': { precedence: 1, associativity: 'L', fn: (a, b) => Decimal.sub(a, b) },
+    '*': { precedence: 2, associativity: 'L', fn: (a, b) => Decimal(a).times(b) },
+    '×': { precedence: 2, associativity: 'L', fn: (a, b) => Decimal(a).times(b) },
+    'x': { precedence: 2, associativity: 'L', fn: (a, b) => Decimal(a).times(b) }, 
+    '/': { precedence: 2, associativity: 'L', fn: (a, b) => Decimal(a).div(b) },
+    '÷': { precedence: 2, associativity: 'L', fn: (a, b) => Decimal(a).div(b) },   
+    '^': { precedence: 3, associativity: 'R', fn: (a, b) => Decimal.pow(a, b) }
 };
 
 // Define functions
@@ -54,17 +54,24 @@ function infixToPostfix(tokens) {
     let output = [];
     let stack = [];
     
-    let i=0
-    tokens.forEach(token => {
-        i++
+
+    for (let i = 0; i < tokens.length; i++) {
+        let token = tokens[i];
 
         // If token is number, add to output
         if (!isNaN(token)) {
+            // If there is a negative sign before the number and there is no number before the negative sign, add it to the number
+            if ((tokens[i-1] === '-') && (i === 1 || isNaN(tokens[i-2]))) {
+                tokens.splice(i-1, 1);
+                output.push("-" + token);
+            } else {
             output.push(token);
+            }
         } else if (functions[token]) { // If token is function
             stack.push(token);
         } else if (ops[token]) { // If token is operator
             // While there are items in the stack and the top item in the stack is an operator
+
             while (stack.length && ops[stack[stack.length - 1]] && (
                 (ops[stack[stack.length - 1]].precedence > ops[token].precedence) ||
                 (ops[stack[stack.length - 1]].precedence == ops[token].precedence && ops[token].associativity === 'L')
@@ -98,7 +105,7 @@ function infixToPostfix(tokens) {
         //console.log("time through loop: ", i)
         //console.log("output: ", output);
         //console.log("stack: ", stack);
-    });
+    }
     
     // Add all remaining operators in the stack to the output
     while (stack.length) {
@@ -113,8 +120,15 @@ function evaluatePostfix(postfixTokens) {
     // Evaluate the postfix expression using a stack
     let stack = [];
     
-    postfixTokens.forEach(token => {
+    for (let i = 0; i < postfixTokens.length; i++) {
+        let token = postfixTokens[i];
         if (!isNaN(token)) {    // If token is a number
+            if (postfixTokens[i+1] === '-') {
+                postfixTokens.splice(i+1, 1);
+                stack.push("-" + token);
+            } else {
+                stack.push(token);
+            }
             stack.push(token);
         } else if (token === 'pi') {
             stack.push(Decimal.PI);
@@ -130,16 +144,16 @@ function evaluatePostfix(postfixTokens) {
         } else if (ops[token]) { // If token is an operator
             let b = stack.pop();
             let a = stack.pop();
-            
+
+
             // Deal with negative numbers
-            if (token === '-' && a === undefined) {
-                stack.push(-b);
+            if (token === '-' && a !== NaN) {
+                stack.push("-" + b);
             } else {
-                stack.push(ops[token].fn(a,b));
             }
         }
         console.log("stack: ", stack);
-    });
+    }
     
     return stack[0];
 }
