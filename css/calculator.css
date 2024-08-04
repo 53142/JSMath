@@ -49,7 +49,8 @@ option {
 }
 
 input {
-    font-size: 20px;
+    width: 70%;
+    font-size: 30px;
     background-color: rgb(232, 232, 232);
     text-align: center;
     transform: scale(1);
