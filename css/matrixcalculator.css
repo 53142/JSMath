@@ -1,9 +1,12 @@
-#matrices {
-    display: flex;
-    flex-direction: row;
+input {
+    max-width: 150px;
 }
 
-@media screen and (max-width: 1300px) {
+#matrices {
+    display: flex;
+}
+
+@media screen and (max-width: 1800px) {
     #matrices {
         flex-direction: column;
     }
@@ -11,15 +14,24 @@
 
 @media screen and (max-width: 600px) {
     input {
-        max-width: 40%;
+        max-width: 50px;
         border-radius: 0;
     }
 }
 
 .matrix {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin: auto;
+    padding: 0 20px 40px 20px;
 }
 
-#rowsValue, #columnsValue {
+#rowsValueA, #columnsValueA, #rowsValueB, #columnsValueB {
     width: 1.5em;
+}
+
+
+.operations {
+    
 }

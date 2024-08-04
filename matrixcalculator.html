@@ -44,6 +44,10 @@
                     <td><input type="number" value=1></input></td>
                 </tr>
             </table>
+            <div class="operations">
+                <button type="button" id="determinantButtonA">Determinant</button>
+                <button type="button" id="inverseButtonA">Inverse</button>
+            </div>
         </div>
         <div class="matrix">
             <p>Matrix B</p>
@@ -81,14 +85,21 @@
                     <td><input type="number" value=1></input></td>
                 </tr>
             </table>
+            <div class="operations">
+                <button type="button" id="determinantButtonB">Determinant</button>
+                <button type="button" id="inverseButtonB">Inverse</button>
+            </div>
         </div>
     </div>
-    <button id="addButton">Add</button>
-    <button id="subtractButton">Subtract</button>
+    <div class="operations">
+        <button type="button" id="addButton">Add</button>
+        <button type="button" id="subtractButton">Subtract</button>
+        <button type="button" id="multiplyButton">Multiply</button>
+    </div>
     <div class="matrix">
-        <p>Matrix C</p>
+        <p>Result</p>
         
-        <table id="matrixC">
+        <table id="resultMatrix">
             <tr>
                 <td><input type="number" value=1></input></td>
                 <td><input type="number" value=1></input></td>
