@@ -35,13 +35,14 @@ const functions = {
 // Split the input string into tokens (numbers, operators, parentheses)
 function tokenize(expression) {
     console.log("expression: ", expression);
-    if (expression.match(/\(.*-\d.*\)*/g)) {
-        // replace all instances of - with (0-
-        expression = expression.replace(/-/g, '(0-');
-
-        // add closing parentheses
-        //expression = expression.replace(/\(0\-\d.*/g, '$&)');
-    }
+    
+    //if (expression.match(/\(.*-\d.*\)*/g)) {
+    //    // replace all instances of - with (0-
+    //    expression = expression.replace(/-/g, '(0-');
+    //
+    //    // add closing parentheses
+    //    //expression = expression.replace(/\(0\-\d.*/g, '$&)');
+    //}
     if (expression.match(/√/g)) {
         expression = expression.replace(/√/g, 'sqrt(');
     }
@@ -53,30 +54,36 @@ function tokenize(expression) {
 function infixToPostfix(tokens) {
     let output = [];
     let stack = [];
-    
 
+    let unary = false;
     for (let i = 0; i < tokens.length; i++) {
         let token = tokens[i];
-
         // If token is number, add to output
         if (!isNaN(token)) {
-            // If there is a negative sign before the number and there is no number before the negative sign, add it to the number
-            if ((tokens[i-1] === '-') && (i === 1 || isNaN(tokens[i-2]))) {
-                tokens.splice(i-1, 1);
-                output.push("-" + token);
-            } else {
-            output.push(token);
+            if (unary) {
+                output.push('0');
+                unary = false;
             }
+            output.push(token);            
         } else if (functions[token]) { // If token is function
             stack.push(token);
         } else if (ops[token]) { // If token is operator
-            // While there are items in the stack and the top item in the stack is an operator
 
+            // Check if there is negation Ex: -(x+y), -x, (-x+y)
+            if (token === '-' && (i === 0 || tokens[i-1] === '(' || ops[tokens[i-1]])) {
+                unary = true;
+                stack.push(token);
+                continue;
+            }
+
+            // While there are items in the stack and the top item in the stack is an operator
             while (stack.length && ops[stack[stack.length - 1]] && (
                 (ops[stack[stack.length - 1]].precedence > ops[token].precedence) ||
                 (ops[stack[stack.length - 1]].precedence == ops[token].precedence && ops[token].associativity === 'L')
             )) {
-                output.push(stack.pop());
+                let test = stack.pop()
+                console.log("pushing", test)
+                output.push(test);
             }
             stack.push(token);
         } else if (token === '(') {
@@ -94,9 +101,9 @@ function infixToPostfix(tokens) {
         } else if (token === 'π' || token === 'pi') {
             output.push(Decimal.acos(-1));
         } else if (token === 'e') {
-            output.push(Math.E);
+            output.push(Math.E); // FIX
         } else if (token === '𝜏' || token === 'tau') {
-            output.push(Math.PI / 2);
+            output.push(Math.PI / 2); // FIX
         } else {
             console.log("Invalid token: ", token);
         }
@@ -123,12 +130,6 @@ function evaluatePostfix(postfixTokens) {
     for (let i = 0; i < postfixTokens.length; i++) {
         let token = postfixTokens[i];
         if (!isNaN(token)) {    // If token is a number
-            if (postfixTokens[i+1] === '-') {
-                postfixTokens.splice(i+1, 1);
-                stack.push("-" + token);
-            } else {
-                stack.push(token);
-            }
             stack.push(token);
         } else if (token === 'pi') {
             stack.push(Decimal.PI);
@@ -145,12 +146,7 @@ function evaluatePostfix(postfixTokens) {
             let b = stack.pop();
             let a = stack.pop();
 
-
-            // Deal with negative numbers
-            if (token === '-' && a !== NaN) {
-                stack.push("-" + b);
-            } else {
-            }
+            stack.push(ops[token].fn(a,b));
         }
         console.log("stack: ", stack);
     }
@@ -189,7 +185,6 @@ function calculate() {
         answer.innerHTML = '';
     }
     else if (input.value.match(regex)){
-        console.log("here")
         let expression = value;
         let result = evaluateExpression(expression);
         answer.innerHTML = result;
