@@ -1,7 +1,9 @@
 "use strict";
 
+const E = '2.71828182845904523536028747135266249775724709369995957496696762772407663035354759457138217852516642742746639193200305992181741359662904357290033429526059563073813232862794349076323382988075319525101901157383418793070215408914993488416750924476146066808226480016847741185374234544243710753907774499206955170276183860626133138458300075204493382656029760673711320070932870912744374704723069697720931014169283681902551510865746377211125238978442505695369677078544996996794686445490598793163688923009879312773617821542499922957635148220826989519366803318252886939849646510582093923982948879332036250944311730123819706841614039701983767932068328237646480429531180232878250981945581530175671736133206981125099618188159304169035159888851934580727386673858942287922849989208680582574927961048419844436346324496848756023362482704197862320900216099023530436994184914631409343173814364054625315209618369088870701676839642437814059271456354906130310720851038375051011574770417189861068739696552126715468895703503540212340784981933432106817';
 
-Decimal.set({ precision: 50, defaults: true });
+// Set Decimal.js configuration options
+Decimal.set({ precision: 600, defaults: true });
 
 // Define operator precedence
 const ops = {
@@ -10,15 +12,35 @@ const ops = {
     '*': { precedence: 2, associativity: 'L', fn: (a, b) => Decimal(a).times(b) },
     '×': { precedence: 2, associativity: 'L', fn: (a, b) => Decimal(a).times(b) },
     'x': { precedence: 2, associativity: 'L', fn: (a, b) => Decimal(a).times(b) }, 
-    '/': { precedence: 2, associativity: 'L', fn: (a, b) => Decimal(a).div(b) },
-    '÷': { precedence: 2, associativity: 'L', fn: (a, b) => Decimal(a).div(b) },   
+    '/': { precedence: 2, associativity: 'L', fn: (a, b) => {
+        if (b === "0" || b === Decimal(0)) {
+            return "Error: Division by zero";
+        } else {
+            return Decimal(a).div(b);
+        }
+    } },
+    '÷': { precedence: 2, associativity: 'L', fn: (a, b) => {
+        if (b === "0" || b === Decimal(0)) {
+            return "Error: Division by zero";
+        } else {
+            return Decimal(a).div(b);
+        }
+    } },
     '^': { precedence: 3, associativity: 'R', fn: (a, b) => Decimal.pow(a, b) }
 };
 
 // Define functions
 const functions = {
     'log': { fn: (a) => Decimal.log10(a) },
-    'sin': { fn: (a) => Decimal.sin(a) },
+    'ln': { fn: (a) => Decimal.ln(a) },
+    'sin': { fn: (a) => {
+        // Deal with sin(pi)
+        if (Decimal(a).mod(Decimal.acos(-1)).isInt()) {
+            return Decimal(0);
+        } else {
+            return Decimal.sin(a);
+        }
+    } },
     'cos': { fn: (a) => Decimal.cos(a) },
     'tan': { fn: (a) => Decimal.tan(a) },
     'csc': { fn: (a) => Decimal.div(1, Decimal.sin(a)) },
@@ -35,19 +57,13 @@ const functions = {
 // Split the input string into tokens (numbers, operators, parentheses)
 function tokenize(expression) {
     console.log("expression: ", expression);
-    
-    //if (expression.match(/\(.*-\d.*\)*/g)) {
-    //    // replace all instances of - with (0-
-    //    expression = expression.replace(/-/g, '(0-');
-    //
-    //    // add closing parentheses
-    //    //expression = expression.replace(/\(0\-\d.*/g, '$&)');
-    //}
+
+    // Deal with √ as sqrt
     if (expression.match(/√/g)) {
         expression = expression.replace(/√/g, 'sqrt(');
     }
-    console.log("tokenized: ", expression.match(/\d+\.?\d*|[+*\/()-^]|(log|sin|cos|tan|csc|sec|cot|asin|acos|atan|max|min|÷|×|x|sqrt|√|π|pi|e|𝜏|tau)/g));
-    return expression.match(/\d+\.?\d*|[+*\/()-^]|(log|sin|cos|tan|csc|sec|cot|asin|acos|atan|max|min|÷|×|x|sqrt|√|π|pi|e|𝜏|tau)/g);
+    console.log("tokenized: ", expression.match(/\d+\.?\d*|[+*\/()-^]|(log|ln|sin|cos|tan|csc|sec|cot|asin|acos|atan|max|min|÷|×|x|sqrt|√|π|pi|e|𝜏|tau)/g));
+    return expression.match(/\d+\.?\d*|[+*\/()-^]|(log|ln|sin|cos|tan|csc|sec|cot|asin|acos|atan|max|min|÷|×|x|sqrt|√|π|pi|e|𝜏|tau)/g);
 }
 
 // Convert infix expression to postfix using the Shunting Yard algorithm
@@ -68,7 +84,6 @@ function infixToPostfix(tokens) {
         } else if (functions[token]) { // If token is function
             stack.push(token);
         } else if (ops[token]) { // If token is operator
-
             // Check if there is negation Ex: -(x+y), -x, (-x+y)
             if (token === '-' && (i === 0 || tokens[i-1] === '(' || ops[tokens[i-1]])) {
                 unary = true;
@@ -101,15 +116,13 @@ function infixToPostfix(tokens) {
         } else if (token === 'π' || token === 'pi') {
             output.push(Decimal.acos(-1));
         } else if (token === 'e') {
-            output.push(Math.E); // FIX
+            output.push(Decimal(E));
         } else if (token === '𝜏' || token === 'tau') {
-            output.push(Math.PI / 2); // FIX
+            output.push(Decimal.div(Decimal.acos(-1), 2));
         } else {
             console.log("Invalid token: ", token);
         }
-
         //DEBUG LOGGING
-        //console.log("time through loop: ", i)
         //console.log("output: ", output);
         //console.log("stack: ", stack);
     }
@@ -131,9 +144,6 @@ function evaluatePostfix(postfixTokens) {
         let token = postfixTokens[i];
         if (!isNaN(token)) {    // If token is a number
             stack.push(token);
-        } else if (token === 'pi') {
-            stack.push(Decimal.PI);
-        
         } else if (functions[token]) {  // If token is a function
             let a = stack.pop();
             if (functions[token].fn.length > 1) {
@@ -162,8 +172,7 @@ function evaluateExpression(expression) {
     return result;
 }
 
-//const regex = /^[0-9,\(,\)]+([+,-,*,\/,\(,\)]+[0-9,\(,\)]+)+$/gm;
-const regex = /^[A-z0-9,\(\)+\*\/\-.÷×xπ√𝜏tau]*$/
+const regex = /^[A-z0-9,\(\)+\*\/\-.÷×xπ√𝜏]*$/
 
 let input = document.querySelector('input');
 let answer = document.querySelector('#answer');
@@ -189,8 +198,7 @@ function calculate() {
         let result = evaluateExpression(expression);
         answer.innerHTML = result;
         console.log(`The result of '${expression}' is ${result}`);
-    }
-    else {
+    } else {
         answer.innerHTML = 'Invalid input';
     }
 };
