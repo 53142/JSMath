@@ -63,7 +63,7 @@ input {
     caret-color: rgb(89, 89, 89);
 }
 
-input:focus {
+input:focus, input:hover {
     will-change: transform;
     animation: inputAnimation ease 0.4s;
     background-color: rgb(230, 230, 230);
@@ -94,11 +94,16 @@ button:active {
     opacity: 0.8;
 }
 
-.answer {
+#answer {
+    display: block;
     padding: 5px;
     font-size: 35px;
     font-weight: bold;
-    overflow: wrap;
+    overflow-wrap: anywhere;
+    /* 
+    overflow-wrap won't work on Safari very well 
+    L Safari
+    */
 }
 
 hr {
