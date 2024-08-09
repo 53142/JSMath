@@ -1,0 +1,14 @@
+textarea {
+    width: 20%;
+    transition: all 0.6s ease;
+    border: 2px solid rgb(61, 61, 61);
+    background-color: rgb(229, 229, 229);
+    text-align: center;
+    font-size: 30px;
+    height: 1.5em;
+}
+
+textarea:hover, textarea:focus {
+    transition: transform 0.6s ease;
+    transform: scale(1.1);
+}
