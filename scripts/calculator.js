@@ -5,10 +5,38 @@ const E = '2.7182818284590452353602874713526624977572470936999595749669676277240
 
 const regexMatch = /\d+\.?\d*|[+*\/()-^]|(log|ln|sin|cos|tan|csc|sec|cot|asin|acos|atan|max|min|÷|×|x|sqrt|√|π|pi|e|𝜏|tau)/g;
 
-let settingsShown = false
+let settingsShown = false;
+let precision = 10;
 
 // Set Decimal.js configuration options
-Decimal.set({ precision: 4000, defaults: true });
+Decimal.set({ precision: 10, defaults: true });
+
+let precisionSetting = document.getElementById("precisionSetting");
+precisionSetting.addEventListener("input", adjustPrecision);
+
+
+// Set default value for precision
+precisionSetting.value = 10;
+
+function adjustPrecision() {
+    let precisionValue = parseFloat(precisionSetting.value)
+    if (isNaN(precisionValue)) {
+        precisionValue = 10
+    } else {
+        if (precisionValue > 4000) {
+            precisionValue = 4000
+        } else if (precisionValue < 1) {
+            precisionValue = 1
+        }
+    }
+    precisionSetting.value = precisionValue;
+
+    // Set Decimal.js configuration options
+    Decimal.set({ precision: precisionValue, defaults: true });
+
+}
+
+
 
 // Define operator precedence
 const ops = {
@@ -203,8 +231,6 @@ function calculate() {
         answer.innerHTML = 'Invalid input';
     }
 };
-
-
 
 
 document.getElementById("settingsButton").addEventListener('click', toggleSettings);
