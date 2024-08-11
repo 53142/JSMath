@@ -44,7 +44,7 @@ img {
 }
 
 .section-text {
-    scale: 0.9;
+    scale: 0.95;
     opacity: 0;
     filter: blur(2px);
 
@@ -65,6 +65,7 @@ img {
     to {
         scale: 1;
         opacity: 1;
+        /* Remove blur */
         filter: none;
     }
 }

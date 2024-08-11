@@ -5,6 +5,8 @@ const E = '2.7182818284590452353602874713526624977572470936999595749669676277240
 
 const regexMatch = /\d+\.?\d*|[+*\/()-^]|(log|ln|sin|cos|tan|csc|sec|cot|asin|acos|atan|max|min|÷|×|x|sqrt|√|π|pi|e|𝜏|tau)/g;
 
+let settingsShown = false
+
 // Set Decimal.js configuration options
 Decimal.set({ precision: 4000, defaults: true });
 
@@ -201,3 +203,19 @@ function calculate() {
         answer.innerHTML = 'Invalid input';
     }
 };
+
+
+
+
+document.getElementById("settingsButton").addEventListener('click', toggleSettings);
+
+function toggleSettings() {
+    // Toggle settings
+    settingsShown = !settingsShown;
+
+    if (settingsShown) {
+        document.getElementById("settingsPage").style = "visibility: visible";
+    } else {
+        document.getElementById("settingsPage").style = "visibility: hidden";
+    }
+}
