@@ -100,10 +100,6 @@ button:active {
     font-size: 35px;
     font-weight: bold;
     overflow-wrap: anywhere;
-    /* 
-    overflow-wrap won't work on Safari very well 
-    L Safari
-    */
 }
 
 hr {

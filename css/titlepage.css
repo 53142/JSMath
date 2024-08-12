@@ -12,7 +12,7 @@
 }
 
 .trytools {
-    margin: 100px;
+    margin: 100px 100px 60vh 100px;
     font-weight: 900;
     font-size: 1.1em;
 }
@@ -31,12 +31,10 @@ img {
 
 .left-side {
     width: 60%;
-    
 }
 
 .right-side {
     width: 40%;
-    
 }
 
 .mathformatter {
@@ -50,7 +48,6 @@ img {
 
     view-timeline: --subjectReveal block;
     animation-timeline: --subjectReveal;
-  
     animation-name: blur-fade-in;
     animation-range: entry 40% contain 25%;
     animation-fill-mode: both;

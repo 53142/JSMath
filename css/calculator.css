@@ -1,10 +1,29 @@
+.darkMode {
+    background-color: rgb(50, 50, 50);
+    color: white;
+}
+
+#mathInput.darkMode {
+    background-color: rgb(187, 187, 187);
+}
+
+#mathInput.darkMode:hover, #mathInput.darkMode:focus {
+    background-color: rgb(134, 134, 134);
+}
+
+::placeholder.darkMode {
+    color: white;
+}
+
 #settingsButton {
     position: absolute;
     top: 0;
     right: 0;
 
-    width: 4vw;
-    height: 4vw;
+    width: 3vw;
+    height: 3vw;
+    min-width: 25px;
+    min-height: 25px;
 
     background-color: rgb(184, 184, 184);
     border: 2px solid gray;
@@ -18,6 +37,12 @@
 #settingsButton:hover {
     transition: transform 0.2s ease;
     transform: scale(1.05);
+}
+
+#settingsButton > img {
+    width: 100%;
+    transition: transform 0.2s ease;
+    
     transform: rotate(90deg);
 }
 
@@ -32,7 +57,7 @@
 }
 
 
-#settingsOptions {
+.settingsOptions {
     background-color: lightgray;
     display: inline-block;
     padding: 20px;
@@ -40,6 +65,19 @@
     border-radius: 20px;
 }
 
-#settingsOptions > input {
+.settingsOptions > input {
     width: 100px;
+}
+
+#darkModeSetting {
+    display: inline-block;
+    width: 2em;
+    vertical-align: middle;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#darkModeSetting:hover {
+    transition: transform 0.2s ease;
+    transform: scale(1.05);
 }
