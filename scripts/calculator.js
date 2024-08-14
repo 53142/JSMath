@@ -9,8 +9,6 @@ let settingsShown = false;
 
 
 let precisionSetting = document.getElementById("precisionSetting");
-precisionSetting.addEventListener("input", adjustPrecision);
-
 
 // Set default value for precision
 let precision = 20;
@@ -34,10 +32,10 @@ Decimal.set({ precision: precision, defaults: true });
 function adjustPrecision() {
     let precisionValue = parseFloat(precisionSetting.value)
     if (isNaN(precisionValue)) {
-        precisionValue = 10
+        precisionValue = 20
     } else {
-        if (precisionValue > 4000) {
-            precisionValue = 4000
+        if (precisionValue > 100000) {
+            precisionValue = 100000
         } else if (precisionValue < 1) {
             precisionValue = 1
         }
@@ -102,13 +100,25 @@ const functions = {
     'max': { fn: (a, b) => Decimal.max(a, b) },
     'min': { fn: (a, b) => Decimal.min(a, b) },
     'cPi': { fn: (a) => { // Calculate pi to 'a' digits using chudnovsky algorithm
+
+        // MAYBE CACHE FACTORIALS TO SPEED UP COMPUTATION
+        
         // fix issues
-        // Need to implement factorials to finish chudnovsky alorithms
         let summationResult = Decimal(0);
-        for (var i=0; i<a; i++) {
-            summationResult = summationResult.add(Decimal(-1).pow(i).times(factorial(Decimal(6).times(i))).times(Decimal(545140134).times(i).add(13591409)).div(factorial(Decimal(3).times(i)).times(factorial(i).pow(3)).times(640320).pow(Decimal(3).times(i))));
+        for (var i=0; i<=a; i++) {
+            console.log("i: ", i);
+
+            let numerator = Decimal(-1).pow(i).times(factorial(Decimal(6).times(i))).times(Decimal(545140134).times(i).add(13591409));
+            let denominator = factorial(Decimal(3).times(i)).times(factorial(i).pow(3)).times(Decimal(640320).pow(Decimal(3).times(i)));
+
+            summationResult = summationResult.add(numerator.div(denominator));
+
+            console.log("summationResult: ", summationResult);
         }
+        //alert(summationResult);
+
         return Decimal(1).div(summationResult.div(Decimal(426880).times(Decimal.sqrt(Decimal(10005)))));
+        
     } },
 };
 
@@ -269,6 +279,8 @@ function toggleSettings() {
     if (settingsShown) {
         document.getElementById("settingsPage").style = "visibility: visible";
     } else {
+        // Update the precision
+        adjustPrecision();
         document.getElementById("settingsPage").style = "visibility: hidden";
     }
 }

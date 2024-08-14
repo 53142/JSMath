@@ -90,8 +90,6 @@ determinantButtonA.addEventListener('click', function() {
 addButton.addEventListener('click', function() {
     updateMatrixAValue();
     updateMatrixBValue();
-    
-    let matrixC = document.getElementById('matrixC');
 
     // Make sure matrices have the same dimensions
     if (rowsA.value != rowsB.value || columnsA.value != columnsB.value) {

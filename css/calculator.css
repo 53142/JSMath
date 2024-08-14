@@ -76,7 +76,7 @@ body.darkMode, #settingsPage.darkMode {
 }
 
 .settingsOptions > input {
-    width: 100px;
+    width: 150px;
 }
 
 #darkModeSetting {

@@ -2,6 +2,10 @@ input {
     max-width: 150px;
 }
 
+.rowcolumncontainer {
+    display: inline;
+}
+
 #matrices {
     display: flex;
 }
@@ -16,6 +20,12 @@ input {
     input {
         max-width: 50px;
         border-radius: 0;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .rowcolumncontainer {
+        display: block;
     }
 }
 
