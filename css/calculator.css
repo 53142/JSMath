@@ -1,4 +1,4 @@
-.darkMode {
+body.darkMode, #settingsPage.darkMode {
     background-color: rgb(50, 50, 50);
     color: white;
 }
@@ -8,12 +8,19 @@
 }
 
 #mathInput.darkMode:hover, #mathInput.darkMode:focus {
-    background-color: rgb(134, 134, 134);
+    /* Override the hover and focus styles from main.css */
+    background-color: rgb(187, 187, 187) !important;
 }
 
-::placeholder.darkMode {
-    color: white;
+#settingsButton.darkMode {
+    background-color: rgb(206, 206, 206);
+    border: 2px solid white;
 }
+
+#calculate.darkMode {
+    background-color: rgb(112, 112, 112);
+}
+
 
 #settingsButton {
     position: absolute;
@@ -56,13 +63,16 @@
     z-index: 5;
 }
 
-
 .settingsOptions {
     background-color: lightgray;
     display: inline-block;
     padding: 20px;
     margin: 30px;
     border-radius: 20px;
+}
+
+.settingsOptions.darkMode {
+    background-color: rgb(179, 179, 179);
 }
 
 .settingsOptions > input {
