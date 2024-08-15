@@ -29,3 +29,7 @@ document.getElementById("mathinput").addEventListener("input", function() {
     document.getElementById("mathoutput").innerHTML = math;
     MathJax.typeset();
 });
+
+document.getElementById("backButton").addEventListener('click', () => {
+    window.location.href = "index.html";
+});

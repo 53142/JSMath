@@ -147,3 +147,22 @@ a:active {
         padding: 15px 25px;
     }
 }
+
+#backButton.darkMode {
+    background-color: gray;
+}
+
+#backButton {
+    position: fixed;
+    width: 100px;
+    height: 50px;
+    bottom: 0;
+    left: 0;
+    margin: 20px;
+    background-color: #545454;
+}
+
+#backButton:hover {
+    transition: transform 0.2s ease;
+    transform: scale(1.02);
+}

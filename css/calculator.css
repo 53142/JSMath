@@ -49,8 +49,6 @@ body.darkMode, #settingsPage.darkMode {
 #settingsButton > img {
     width: 100%;
     transition: transform 0.2s ease;
-    
-    transform: rotate(90deg);
 }
 
 #settingsPage {

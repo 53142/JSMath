@@ -173,3 +173,7 @@ multiplyButton.addEventListener('click', function() {
         resultMatrix.appendChild(row);
     }
 });
+
+document.getElementById("backButton").addEventListener('click', () => {
+    window.location.href = "index.html";
+});
