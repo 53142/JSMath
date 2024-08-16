@@ -27,6 +27,7 @@ img {
     align-items: center;
     justify-content: center;
     border: 3px solid black;
+    cursor: pointer;
 }
 
 .left-side {

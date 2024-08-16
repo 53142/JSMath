@@ -27,6 +27,7 @@
 .resource:hover {
     transition: opacity 0.2s ease;
     transition: transform 0.2s ease;
+    
 
     opacity: 0.9;
     transform: scale(1.02);
