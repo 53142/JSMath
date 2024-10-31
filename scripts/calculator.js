@@ -53,6 +53,19 @@ function adjustPrecision() {
 
 // BEGIN CALCULATOR CODE
 
+// For use in Chudnovsky algorithm in Cpi Function
+function factorialCache() {
+    const cache = { 0: new Decimal(1) }; // Initialize cache with 0! = 1
+    return function factorial(n) {       // Define and return the cached factorial function
+        if (!cache[n]) {
+            cache[n] = new Decimal(n).times(factorial(n - 1));
+        }
+        return cache[n];
+    };
+}
+
+const factorial = factorialCache(); // Create a cached factorial function
+
 // Define operator precedence
 const ops = {
     '+': { precedence: 1, associativity: 'L', fn: (a, b) => Decimal.add(a, b) },
@@ -103,26 +116,34 @@ const functions = {
     'sqrt': { fn: (a) => Decimal.sqrt(a) },
     'max': { fn: (a, b) => Decimal.max(a, b) },
     'min': { fn: (a, b) => Decimal.min(a, b) },
-    'cPi': { fn: (a) => { // Calculate pi to 'a' digits using chudnovsky algorithm
+    'cPi': { fn: (a) => { 
+        // Initialize constants for Chudnovsky algorithm
+        const C = new Decimal(426880).times(Decimal.sqrt(new Decimal(10005)));
+        const M1 = new Decimal(545140134);
+        const M2 = new Decimal(13591409);
+        const M3 = new Decimal(640320);
 
-        // MAYBE CACHE FACTORIALS TO SPEED UP COMPUTATION
-        
-        // fix issues
-        let summationResult = Decimal(0);
-        for (var i=0; i<=a; i++) {
+        let factorial6i = new Decimal(1);
+        let factorial3i = new Decimal(1);
+        let factoriali3 = new Decimal(1);
+        let summationResult = new Decimal(0);
+
+        for (let i = 0; i <= a; i++) {
             console.log("i: ", i);
+            if (i > 0) {
+                factorial6i = factorial6i.times(new Decimal(6 * i));
+                factorial3i = factorial3i.times(new Decimal(3 * i));
+                factoriali3 = factoriali3.times(new Decimal(i));
+            }
+            
+            let termNumerator = new Decimal(-1).pow(i).times(factorial6i).times(M1.times(i).add(M2));
+            let termDenominator = factorial3i.times(factoriali3.pow(3)).times(M3.pow(3 * i));
 
-            let numerator = Decimal(-1).pow(i).times(factorial(Decimal(6).times(i))).times(Decimal(545140134).times(i).add(13591409));
-            let denominator = factorial(Decimal(3).times(i)).times(factorial(i).pow(3)).times(Decimal(640320).pow(Decimal(3).times(i)));
-
-            summationResult = summationResult.add(numerator.div(denominator));
-
-            console.log("summationResult: ", summationResult);
+            summationResult = summationResult.add(termNumerator.div(termDenominator));
         }
-        //alert(summationResult);
 
-        return Decimal(1).div(summationResult.div(Decimal(426880).times(Decimal.sqrt(Decimal(10005)))));
-        
+        // Calculate and return the approximate value of Pi
+        return C.div(summationResult);
     } },
 };
 
@@ -191,7 +212,7 @@ function infixToPostfix(tokens) {
             output.push(Decimal.acos(-1).times(2));
         } else if (token === '!') { // Factorial
             let a = output.pop();
-            output.push(factorial(a));
+            output.push(factorialfunction(a));
             
         } else {
             console.log("Invalid token: ", token);
@@ -269,7 +290,7 @@ function calculate() {
 };
 
 // Calculate the factorial for argument 'a'
-function factorial(a) {
+function factorialfunction(a) {
     let result = Decimal(1);
     for (let i = 0; i < a; i++) {
         result = result.times(Decimal(a - i));
