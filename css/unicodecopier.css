@@ -6,6 +6,7 @@ textarea {
     text-align: center;
     font-size: 30px;
     margin: 20px;
+    border-radius: 0.3em;
 }
 
 textarea:hover, textarea:focus {
@@ -17,4 +18,19 @@ button {
     width: 20%;
     margin: auto;
     display: block;
+}
+
+#coolMenuButton {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#coolMenu {
+    display: none;
+    margin: auto;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    width: 50%;
+    border: 3px solid gray;
+    padding: 10px;
 }

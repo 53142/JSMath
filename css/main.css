@@ -33,7 +33,7 @@ select {
     min-width: 70px;
     width: 350px;
     font-size: 18px;
-    border-radius: .3em;
+    border-radius: 0.3em;
 }
 
 select:focus {

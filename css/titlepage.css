@@ -19,6 +19,7 @@
 
 img {
     max-width: 95%;
+    max-height: 200px;
 }
 
 .subsection {
@@ -39,7 +40,7 @@ img {
 }
 
 .mathformatter {
-    max-height: 50vh;
+    max-height: 300px;
 }
 
 .section-text {
